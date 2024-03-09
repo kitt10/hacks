@@ -42,7 +42,7 @@ class EP_Query(RequestHandler):
     def post(self):
         query = json_decode(self.request.body)
         self.webserver.log(f'Query: {query}')
-        self.write(dumps(self.worker.react(q=query['q'])))
+        self.write(dumps(self.worker.react(q=query['message'])))
         
     def check_origin(self, origin):
         return True
@@ -54,7 +54,7 @@ class EP_Query(RequestHandler):
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.set_header("Access-Control-Request-Headers", "Content-Type")
+        #self.set_header("Access-Control-Request-Headers", "Content-Type")
 
            
 class WebServer:
@@ -99,7 +99,7 @@ class Worker:
         t0 = time()
         ans = self.chat.turn(q)
         dt = time()-t0
-        res = {'ans': ans, 'dt': dt}
+        res = {'text': ans, 'dt': dt}
         self.log(f'q: {q}')
         return res
         
